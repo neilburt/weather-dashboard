@@ -1,0 +1,13 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  text-align: center;
+}
+
+h1 {
+  font-family: 'Rye', 'American Typewriter', serif;
+  padding: 1.75rem 0 1.75rem 0;
+  background-color: skyblue;
+}
