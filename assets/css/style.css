@@ -14,3 +14,7 @@ h1 {
   padding: 1.75rem 0 1.75rem 0;
   background-image: linear-gradient(to bottom right, hsl(197, 71%, 90%), hsl(197, 71%, 35%));
 }
+
+/* #forecast {
+  display: flex;
+} */
