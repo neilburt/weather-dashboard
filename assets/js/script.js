@@ -1,6 +1,6 @@
 var apiKey ="7ef239e2c4471a4b700261b5b01e28e3";
 var storeWeather = JSON.parse(localStorage.getItem('weather')) || [];
-
+// tells search form how to handle API
 $('#search-button').on('click', function() {
   var searchInput = $('#search-field').val();
   var weatherSearch = `https://api.openweathermap.org/data/2.5/weather?q=${searchInput}&units=imperial&appId=${apiKey}`;
@@ -24,16 +24,16 @@ $('#search-button').on('click', function() {
     })
   })
 })
-// tells the 
-$(document).on('click', '.weatherSearch', function() {
-  var index = this.value;
-  fillWeatherInfo(index);
-  propagateForecastSearch(index);
-})
-$('#clear').on('click', function() {
-  localStorage.clear();
-  location.reload();
-})
+// renders current weather information upon search
+function fillWeatherInfo(index) {
+  var temp = storeWeather[index].currentWeather;
+  $('#city').text(temp.name)
+  $('#temperature').text(`Temperature: ${Math.round(temp.main.temp)}°`)
+  $('#humidity').text(`Humidity: ${temp.main.humidity}%`)
+  $('#wind-speed').text(`Windspeed: ${Math.round(temp.wind.speed)} MPH`)
+  $('#feels-like').text(`Feels Like: ${Math.round(temp.main.feels_like)}°`)
+}
+// generates history buttons and tells 
 function propagateWeatherSearch() {
   $('#history').empty();
 
@@ -49,6 +49,7 @@ function propagateWeatherSearch() {
     $('#history').append(btn);
   }
 }
+// renders forecast information section upon search
 function propagateForecastSearch(index) {
   $('#forecast').empty();
 
@@ -70,14 +71,7 @@ function propagateForecastSearch(index) {
     <p>Feels Like: ${Math.round(tempWeather.main.feels_like)}°</p></div></div>`)
   }
 }
-function fillWeatherInfo(index) {
-  var temp = storeWeather[index].currentWeather;
-  $('#city').text(temp.name)
-  $('#temperature').text(`Temperature: ${Math.round(temp.main.temp)}°`)
-  $('#humidity').text(`Humidity: ${temp.main.humidity}%`)
-  $('#wind-speed').text(`Windspeed: ${Math.round(temp.wind.speed)} MPH`)
-  $('#feels-like').text(`Feels Like: ${Math.round(temp.main.feels_like)}°`)
-}
+// tells local storage how to store searched weather data
 function updateStoredWeather(location, currentWeather, forecast) {
   var tempObj = {
     location: "",
@@ -90,3 +84,13 @@ function updateStoredWeather(location, currentWeather, forecast) {
   storeWeather.push(tempObj);
   localStorage.setItem('weather', JSON.stringify(storeWeather));
 }
+// tells the dynamically generated history buttons what to do
+$(document).on('click', '.weatherSearch', function() {
+  var index = this.value;
+  fillWeatherInfo(index);
+  propagateForecastSearch(index);
+})
+$('#clear').on('click', function() {
+  localStorage.clear();
+  location.reload();
+})
