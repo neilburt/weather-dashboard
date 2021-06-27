@@ -27,7 +27,11 @@ $('#search-button').on('click', function() {
 // renders current weather information upon search
 function fillWeatherInfo(index) {
   var temp = storeWeather[index].currentWeather;
+  var weatherIcon = temp.weather[0].icon;
+
   $('#city').text(temp.name)
+  $('#icon').attr("src", `https://openweathermap.org/img/wn/${weatherIcon}@2x.png`)
+  $('#icon').attr("alt", temp.weather[0].description)
   $('#temperature').text(`Temperature: ${Math.round(temp.main.temp)}°`)
   $('#humidity').text(`Humidity: ${temp.main.humidity}%`)
   $('#wind-speed').text(`Windspeed: ${Math.round(temp.wind.speed)} MPH`)
@@ -38,7 +42,6 @@ function propagateWeatherSearch() {
   $('#history').empty();
 
   for(let i = 0; i < storeWeather.length; i++) {
-    console.log(storeWeather[i])
     var location = storeWeather[i].location;
     var btn = $('<button>').text(location);
 
@@ -66,7 +69,8 @@ function propagateForecastSearch(index) {
     <div class="card-header">
     <h5 class="card-title">${moment(tempWeather.dt_txt).format('dddd, MMM Do')}</h5>
     </div>\n
-    <div class="card-body"><p class="card-text">Temp: ${Math.round(tempWeather.main.temp)}°</p>\n
+    <div class="card-body"><img src="https://openweathermap.org/img/wn/${tempWeather.weather[0].icon}@2x.png" />
+    <p class="card-text">Temp: ${Math.round(tempWeather.main.temp)}°</p>\n
     <p>Wind: ${Math.round(tempWeather.wind.speed)} MPH</p>\n<p>Humidity: ${tempWeather.main.humidity}%</p>\n
     <p>Feels Like: ${Math.round(tempWeather.main.feels_like)}°</p></div></div>`)
   }
